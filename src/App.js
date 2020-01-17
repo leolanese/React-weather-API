@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// Remember to register to the db API and get your own key :)
 const api = {
   key: "de71fdf3efb2a6c3a148fcde410dc4fc",
   base: "https://api.openweathermap.org/data/2.5/"
@@ -20,7 +21,7 @@ function App() {
     }
   };
 
-  const dateBuilder = x => {
+  const dateCreator = x => {
     const months = [
       "January",
       "February",
@@ -56,31 +57,32 @@ function App() {
   return (
     <div
       className={
-        typeof weather.main != "undefined"
-          ? weather.main.temp > 16
+        typeof weather.main !== "undefined"
+          ? weather.main.temp >= 18
             ? "app warm"
-            : "app"
-          : "app"
+            : "app cold"
+          : "app default"
       }
     >
       <main>
+
         <div className="search-box">
           <input
             type="text"
             className="search-bar"
-            placeholder="Search..."
+            placeholder="Location"
             onChange={e => setQuery(e.target.value)}
             value={query}
             onKeyPress={search}
           />
         </div>
-        {typeof weather.main != "undefined" ? (
+        {typeof weather.main !== "undefined" ? (
           <div>
             <div className="location-box">
               <div className="location">
                 {weather.name}, {weather.sys.country}
               </div>
-              <div className="date">{dateBuilder(new Date())}</div>
+              <div className="date">{dateCreator(new Date())}</div>
             </div>
             <div className="weather-box">
               <div className="temp">{Math.round(weather.main.temp)}°c</div>
